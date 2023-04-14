@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="{% url 'postuser' %}" method="POST"></form>
+    <h1>FORM TAMBAH KURIR</h1>
+    <p>ID Kurir : </p>
+    <input type="text" name="id_kurir" id="id_kurir" max_length=10 required>
+    <p>Nama Kurir : </p>
+    <input type="text" name="nama_kurir" id="nama_kurir" max_length=50 required>
+    <p>No HP : </p>
+    <input type="text" name="nomor_hp_kurir" id=" nomor_hp_kurir" max_length=13 required>
+    <br><br>
+    <label for="area_pengiriman">Pilih Area Pengiriman</label>
+    <select id="area_pengiriman" name="mySelect">
+        <option value="option1">Seturan</option>
+        <option value="option1">Condong Catur</option>
+        <option value="option2">Babarsari</option>
+        <option value="option3">Depok</option>
+    </select>
+    <br>
+    <br>
+    <button type="submit">SUBMIT</button>
+</body>
+</html>
