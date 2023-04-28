@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tambah Barang</title>
+</head>
+
+<body>
+    <p>
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                {% endfor %}
+        </ul>
+        {% endif %}
+    </p>
+
+    <form action=" {% url 'postBarang' %} " method="POST">
+        {% csrf_token %}
+        <h1>FORM TAMBAH BARANG</h1>
+        <p>ID BARANG : </p>
+        <input type="text" name="id_barang" id="id_barang" maxlength="10" required>
+        <p>NAMA PEMESAN : </p>
+        <input type="text" name="nama_pemesan" id="nama_pemesan" maxlength="15" required>
+        <p>STATUS BARANG: </p>
+        <div class="form-check">
+            <input type="radio" class="form-check-input" id="pos" name="status_barang" value="pos">
+            <label class="form-check-label" for="pos">POS/Gagal</label>
+            <p></p>
+            <input type="radio" class="form-check-input" id="pod" name="status_barang" value="pod">
+            <label class="form-check-label" for="pod">POD/Sukses</label>
+          </div>
+        <P>NO HP : </P>
+        <input type="text" name="no_hp" id="no_hp" maxlength="12" required>
+        <p>TUJUAN : </p>
+        <select name="tujuan" id="tujuan" required>
+            <option value="">-- Pilih Tujuan Pengiriman --</option>
+            <option value="Sleman">Sleman</option>
+            <option value="Bantul">Bantul</option>
+            <option value="Gunung Kidul">Gunung Kidul</option>
+            <option value="Kulon Progo">Kulon Progo</option>
+            <option value="Kota Yogyakarta">Kota Yogyakarta</option>
+        </select>
+        <p>NAMA PENERIMA :</p>
+        <input type="text" name="nama_penerima" id="nama_penerima" required>
+        <br>
+        <br>
+        <button type="submit" class="btn btn-primary">SUBMIT</button>
+    </form>
+</body>
+
+</html>

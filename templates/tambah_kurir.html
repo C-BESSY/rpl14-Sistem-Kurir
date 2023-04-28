@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tambah Kurir</title>
+</head>
+
+<body>
+    <p>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    </p>
+
+    <form action=" {% url 'postKurir' %} " method="POST">
+        {% csrf_token %}
+        <h1>FORM TAMBAH KURIR</h1>
+        <p>USER ID : </p>
+        <input type="text" name="id_kurir" id="id_kurir" maxlength="10" required>
+        <p>USERNAME : </p>
+        <input type="text" name="nama" id="nama" maxlength="50" required>
+        <P>NO TELEPON : </P>
+        <input type="text" name="no_telepon" id="no_telepon" maxlength="12" required>
+        <p>AREA PENGIRIMAN :</p>
+        <select name="area_pengiriman" id="area_pengiriman" required>
+          <option value="">-- Pilih Area Pengiriman --</option>
+          <option value="Sleman">Sleman</option>
+          <option value="Bantul">Bantul</option>
+          <option value="Gunung Kidul">Gunung Kidul</option>
+          <option value="Kulon Progo">Kulon Progo</option>
+          <option value="Kota Yogyakarta">Kota Yogyakarta</option>
+        </select>
+        <br>
+        <br>
+        <button type="submit" class="btn btn-primary">SUBMIT</button>
+    </form>
+</body>
+
+</html>

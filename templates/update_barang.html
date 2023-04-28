@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Barang</title>
+    <style>
+        .button {
+            background-color: rgb(2, 155, 81);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 3px;
+            text-decoration: none;
+        }
+      </style>
+</head>
+<body>
+    {% if messages %}
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>
+            {{ message }}
+        </li>
+        {% endfor %}
+    {% endif %}
+
+    <form action=" {% url 'post_updateBarang' %} " method="POST">
+        {% csrf_token %}
+        <h1>FORM UPDATE BARANG</h1>
+        <p>ID BARANG : </p>
+        <input style="background-color: aquamarine;" type="text" name="id_barang" id="id_barang" 
+        value="{{ data_barang.id_barang }}"  maxlength="10" readonly required>
+        <p>NAMA PEMESAN : </p>
+        <input type="text" name="nama_pemesan" id="nama_pemesan" value="{{ data_barang.nama_pemesan }}" maxlength="10" required>
+        <p>
+            STATUS BARANG: 
+            <div class="form-check">
+                <input type="radio" class="form-check-input" id="pos" name="status_barang" value="pos"
+                {% if data_barang.status_barang == "pos" %}checked{% endif %}>
+                <label class="form-check-label" for="pos">POS/Gagal</label>
+                <br>
+                <input type="radio" class="form-check-input" id="pod" name="status_barang" value="pod"
+                {% if data_barang.status_barang == "pod" %}checked{% endif %}>
+                <label class="form-check-label" for="pod">POD/Sukses</label>
+            </div>            
+        </p>
+        <P>NO HP : </P>
+        <input type="text" name="no_hp" id="no_hp" value="{{ data_barang.no_hp }}" maxlength="12" required>
+        <p>TUJUAN : </p>
+        <select name="tujuan" id="tujuan" required>
+            <option value="">-- Pilih Tujuan Pengiriman --</option>
+            <option value="Sleman" {% if data_barang.tujuan == "Sleman" %} selected {% endif %}>Sleman</option>
+            <option value="Bantul" {% if data_barang.tujuan == "Bantul" %} selected {% endif %}>Bantul</option>
+            <option value="Gunung Kidul" {% if data_barang.tujuan == "Gunung Kidul" %} selected {% endif %}>Gunung Kidul</option>
+            <option value="Kulon Progo" {% if data_barang.tujuan == "Kulon Progo" %} selected {% endif %}>Kulon Progo</option>
+            <option value="Kota Yogyakarta" {% if data_barang.tujuan == "Kota Yogyakarta" %} selected {% endif %}>Kota Yogyakarta</option>
+        </select>
+        <p>NAMA PENERIMA : </p> 
+        <input type="text" name="nama_penerima" id="nama_penerima" value="{{ data_barang.nama_penerima }}" required>
+        <br>
+        <br>
+        <button type="submit" class="btn btn-primary">SUBMIT</button>
+        <a href="{% url 'index' %}" class="button">KEMBALI</a>
+    </form>
+</body>
+</html>
