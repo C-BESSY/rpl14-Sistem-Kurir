@@ -29,7 +29,7 @@
         {% csrf_token %}
         <h1>FORM UPDATE TASK</h1>
         <p>TASK ID : </p>
-        <input style="background-color: aquamarine;" type="text" name="id_task" id="id_task" maxlength="10" value="{{ data_task.id_task }}" readonly required><br>
+        <input style="background-color: aquamarine;" type="text" name="id_task" id="id_task" maxlength="10" value="{{ data_task.id_task }}" readonly required>
         <p>JENIS : </p>
         <input type="radio" name="delivery_type" id="pos" value="pos" onchange="onDeliveryTypeChange()">
         <label for="pos">POS</label><br>
@@ -77,7 +77,7 @@
         </select> -->
         <p></p>
         <button type="submit" class="btn btn-primary">SUBMIT</button>
-        <a href="{% url 'index' %}" class="button">KEMBALI</a>
+        <a href="{% url 'indexTask' %}" class="button">KEMBALI</a>
     </form>
 </body>
 </html>

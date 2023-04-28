@@ -1,0 +1,86 @@
+{% extends 'layout/index.html' %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Task Delivery</title>
+</head>
+<body>
+  <div class="flex-column">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between">
+          <h2 class="card-title" style="font-weight: bold;">Task Delivery</h2>
+          <a class="btn btn-primary" href="{% url 'tambahTask' %}">Tambah Task</a>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>ID Task</th>
+                <th>Waktu POS</th>
+                <th>Waktu POD</th>
+                <th>Bukti POS</th>
+                <th>Bukti POD</th>
+                <th>Jumlah Paket POS</th>
+                <th>Jumlah Paket POD</th>
+                <th>Kurir</th>
+                <th>Barang</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for task in data_task %}
+              <tr>
+                <td>{{ task.id_task }}</td>
+                <td>{{ task.waktu_pos }}</td>
+                <td>{{ task.waktu_pod }}</td>
+                <td>
+                  {% if task.bukti_pos %}
+                    <img src="{{ task.bukti_pos }}" alt="{{ task.id_task }}-bukti-pos" height="100">
+                  {% else %}
+                  {% endif %}
+                </td>
+                <td>
+                  {% if task.bukti_pod %}
+                    <img src="{{ task.bukti_pod }}" alt="{{ task.id_task }}-bukti-pod" height="100">
+                  {% else %}
+                  {% endif %}
+                </td>
+                <td>{{ task.jml_paket_pos }}</td>
+                <td>{{ task.jml_paket_pod }}</td>
+                <td>{{ task.id_kurir.nama }}</td>
+                <td>
+                  <ul>
+                    {% for barang in task.barang.all %}
+                    <li>{{ barang }}</li>
+                    {% endfor %}
+                  </ul>
+                </td>
+                <td>
+                  <a class="btn btn-dark btn-sm" href="{% url 'updateTask' task.id_task %}">
+                      <i class="fa fa-pencil-alt"></i>
+                  </a><p></p>
+                  <a onclick="return confirm('Anda yakin ingin menhapus data Task dengan ID Task = {{task.id_task}} ?')" 
+                  class="btn btn-danger btn-sm" href="{% url 'deleteTask' task.id_task %}">
+                      <i class="fa fa-trash"></i>
+                  </a>
+              </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+    </div>
+    <!-- /.col -->
+  </div>
+</body>
+</html>
+{% endblock %}

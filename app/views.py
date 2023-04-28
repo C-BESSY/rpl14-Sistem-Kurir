@@ -47,33 +47,13 @@ def index(request):
     # data_kurir = Kurir.objects.all()
     # data_task = TaskDelivery.objects.all()
 
-    context = {
+    # context = {
         # 'data_barang': data_barang ,
         # 'data_kurir' : data_kurir, # use : instead of = in dictionary
         # 'data_task' : data_task
-    }
-    return render(request, 'index.html', context)
-
-def index_kurir(request):
-    data_kurir = Kurir.objects.all()
-    context = {
-        'data_kurir' : data_kurir
-    }
-    return render(request, 'index_kurir.html', context)
-
-def index_barang(request):
-    data_barang = Barang.objects.all()
-    context = {
-        'data_barang' : data_barang
-    }
-    return render(request, 'index_barang.html', context)
-
-def index_task(request):
-    data_task = TaskDelivery.objects.all()
-    context = {
-        'data_task' : data_task
-    }
-    return render(request, 'index_task.html', context)
+    # }
+    # return render(request, 'index.html')
+    return redirect(request.META.get('HTTP_REFERER', '/'))
 
 
 #logout
@@ -86,7 +66,7 @@ def logout(request):
 
 #CRUD Kurir
 def tambah_kurir(request):
-    return render(request, 'tambah_kurir.html')
+    return render(request, 'kurirs/tambah_kurir.html')
 
 def post_kurir(request):
     id_kurir = request.POST['id_kurir']
@@ -95,7 +75,7 @@ def post_kurir(request):
     area_pengiriman = request.POST['area_pengiriman']
     if Kurir.objects.filter(id_kurir=id_kurir).exists():
         messages.error(request, 'USER ID SUDAH DIGUNAKAN')
-        return render(request, 'tambah_kurir.html')
+        return render(request, 'kurirs/tambah_kurir.html')
     else:
         tambah_kurir = Kurir(
             id_kurir=id_kurir,
@@ -105,14 +85,21 @@ def post_kurir(request):
         )
         tambah_kurir.save()
         messages.success(request, 'KURIR BERHASIL DITAMBAHKAN.')
-    return redirect('index')
+    return redirect('/index_kurir')
+
+def index_kurir(request):
+    data_kurir = Kurir.objects.all()
+    context = {
+        'data_kurir' : data_kurir
+    }
+    return render(request, 'kurirs/index_kurir.html', context)
 
 def update_kurir(request, id_kurir):
     data_kurir = Kurir.objects.get(id_kurir=id_kurir)
     context = {
         'data_kurir': data_kurir
     }
-    return render (request, 'update_kurir.html', context)
+    return render (request, 'kurirs/update_kurir.html', context)
 
 def post_update_kurir(request):
     #ambil data post
@@ -141,9 +128,14 @@ def delete_kurir(request, id_kurir):
 
 
 
+
+
+
+
+
 #CRUD Barang
 def tambah_barang(request):
-    return render(request, 'tambah_barang.html')
+    return render(request, 'barangs/tambah_barang.html')
 
 def post_barang(request):
     id_barang = request.POST['id_barang']
@@ -155,7 +147,7 @@ def post_barang(request):
 
     if Barang.objects.filter(id_barang=id_barang).exists():
         messages.error(request, 'ID BARANG SUDAH DIGUNAKAN')
-        return render(request, 'tambah_barang.html')
+        return render(request, 'barang/tambah_barang.html')
     else:
         tambah_barang = Barang(
             id_barang=id_barang,
@@ -167,14 +159,21 @@ def post_barang(request):
         )
         tambah_barang.save()
         messages.success(request, 'BERHASIL TAMBAH BARANG')
-    return redirect('index')
+    return redirect('barangs/index_barang')
+
+def index_barang(request):
+    data_barang = Barang.objects.all()
+    context = {
+        'data_barang' : data_barang
+    }
+    return render(request, 'barangs/index_barang.html', context)
 
 def update_barang(request, id_barang):
     data_barang = Barang.objects.get(id_barang=id_barang)
     context = {
         'data_barang': data_barang
     }
-    return render (request, 'update_barang.html', context)
+    return render (request, 'barang/update_barang.html', context)
 
 def post_update_barang(request):
     #ambil data post
@@ -195,6 +194,7 @@ def post_update_barang(request):
         barang.status_barang = status_barang
         barang.save()
         messages.success(request, 'BERHASIL UPDATE DATA BARANG')
+        return render(request, '/index_barang')
     except ValueError:
         messages.error(request, 'PERIKSA KEMBALI NO TELEPON ANDA!')
     return redirect(request.META.get('HTTP_REFERER', '/'))
@@ -206,13 +206,19 @@ def delete_barang(request, id_barang):
     return redirect(request.META.get('HTTP_REFERER', '/'))
 
 
+
+
+
+
+
+
 #CRUD Task
 def tambah_task(request):
     daftar_kurir = Kurir.objects.all()
     context = {
         'daftar_kurir':daftar_kurir,
     }
-    return render(request, 'tambah_task.html',context)
+    return render(request, 'taskDeliverys/tambah_task.html',context)
 
 def post_task(request):
     id_task = request.POST['id_task']
@@ -228,15 +234,13 @@ def post_task(request):
         waktu_pod = None
     jml_paket_pos = request.POST['jml_paket_pos']
     jml_paket_pod = request.POST['jml_paket_pod']
-    # id_kurir = request.POST['id_kurir']
-    # id_barang = request.POST['id_barang']
+
     area_pengiriman = request.POST.get('area_pengiriman')
     kurir = Kurir.objects.filter(area_pengiriman=area_pengiriman).first()
-    # id_barang = request.POST.get('id_barang')
-    # barang = Barang.objects.filter(id_barang=id_barang).first()
+
     if TaskDelivery.objects.filter(id_task=id_task).exists():
         messages.error(request, 'TASK ID SUDAH DIGUNAKAN')
-        return render(request, 'tambah_task.html')
+        return render(request, 'taskDeliverys/tambah_task.html')
         # kurir = Kurir.objects.filter(id=id_kurir).first()
         # if kurir is None:
         #     messages.error(request, 'TIDAK DITEMUKAN KURIR DENGAN ID INI')
@@ -257,29 +261,41 @@ def post_task(request):
             jml_paket_pod=jml_paket_pod,
             id_kurir=kurir,
             # barang=barang,
-            # area_pengiriman=area_pengiriman
         )
         tambah_task.save()
         messages.success(request, 'BERHASIL TAMBAH TASK')
     return redirect('index')
+
+def index_task(request):
+    data_task = TaskDelivery.objects.all()
+    context = {
+        'data_task' : data_task
+    }
+    return render(request, 'taskDeliverys/index_task.html', context)
 
 def update_task(request, id_task):
     data_task = TaskDelivery.objects.get(id_task=id_task)
     context = {
         'data_task': data_task
     }
-    return render (request, 'update_task.html', context)
+    return render (request, 'taskDeliverys/update_task.html', context)
 
 def post_update_task(request):
     #ambil data post
     id_task = request.POST['id_task']
     waktu_pos = request.POST['waktu_pos']
     waktu_pod = request.POST['waktu_pod']
-    bukti_pos = request.POST['bukti_pos']
-    bukti_pod = request.POST['bukti_pod']
+    if waktu_pos == '' :
+        bukti_pos = ''
+        bukti_pod = request.FILES['bukti_pod']
+        waktu_pos = None
+    if waktu_pod == '':
+        bukti_pos = request.FILES['bukti_pos']
+        bukti_pod = ''
+        waktu_pod = None
     jml_paket_pos = request.POST['jml_paket_pos']
     jml_paket_pod = request.POST['jml_paket_pod']
-    id_kurir = request.POST['kurir']
+    # id_kurir = request.POST['kurir']
     #proses update
     task = TaskDelivery.objects.get(id_task=id_task)
     try:
@@ -290,7 +306,7 @@ def post_update_task(request):
         task.bukti_pod = bukti_pod
         task.jml_paket_pos = jml_paket_pos
         task.jml_paket_pod = jml_paket_pod
-        task.id_kurir = id_kurir
+        # task.id_kurir = id_kurir
         task.save()
         messages.success(request, 'BERHASIL UPDATE DATA TASK')
     except ValueError:

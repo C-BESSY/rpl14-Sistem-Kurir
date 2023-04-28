@@ -24,7 +24,7 @@ urlpatterns = [
     path('delete_kurir/<str:id_kurir>/', delete_kurir, name='deleteKurir'),
 
     #CRUD Barang
-    path('index_barang/', index_barang, name='indexBarang'),
+    path('barangs/index_barang/', index_barang, name='indexBarang'),
     path('tambah_barang/', tambah_barang, name='tambahBarang'),
     path('post_barang', post_barang, name='postBarang'),
     path('update_barang/<str:id_barang>/', update_barang, name='updateBarang'),

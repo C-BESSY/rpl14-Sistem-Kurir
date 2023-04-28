@@ -191,7 +191,7 @@
                         });
                       }, 3000);
                     </script>
-                    
+                  </div>
                 {% endfor %}
               {% endif %}
             </p>
@@ -200,7 +200,17 @@
         <!-- /.container-fluid -->
       </section>
   
-      
+      <!-- Main content -->
+            
+      <div class="content">
+        <div class="container-fluid">
+            {% block content %}{% endblock %}
+        </div>
+      </div>
+      <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    
       <!-- Main Footer -->
         <footer class="main-footer" >
           <!-- To the right -->
@@ -216,6 +226,9 @@
   </div>
 </div>
 <!-- ./wrapper -->
+
+<!-- Required Scripts -->
+
 <!-- jQuery -->
 <script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
 <!-- Bootstrap 4 -->
