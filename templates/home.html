@@ -1,4 +1,7 @@
+{% extends 'layout/index.html' %}
 {% load static %}
+
+{% block content %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,27 +17,56 @@
 </body>
 </html>
 <style>
-    h1 {
-        margin-top: 1cm;
+    /* Style untuk container */
+    .right h1 {
         text-align: center;
         font-size: 48px;
         font-weight: bold;
     }
 
-    h5 {
+    .right h5 {
         text-align: center;
         font-size: 15px;
         font-weight: bold;
     }
   
-    b {
+    .right b {
         font-size: 48px;
         font-weight: bold;
     }
+    .container {
+        display: flex;
+        height: 100vh;
+    }
 
+    /* Style untuk bagian kiri */
+    .left {
+        display: inline-block;
+        width: 40%;
+        vertical-align: top;
+    }
+
+    /* Style untuk bagian kanan */
+    .right {
+        display: inline-block;
+        width: 60%;
+        vertical-align: top;
+    }
+
+    .left img {
+        width: 100%;
+        height: auto;
+    }
     </style>
   
-    <h1><b>RPL KELOMPOK 14</b></h1>
-    <h1><b>SISTEM KURIR</b></h1>
-    <h5><b><a href="{% url 'index' %}" class="btn btn-info">Go To Dashboard</a></b></h5>
-  
+    <div class="container">
+        <div class="left">
+            <img src="{% static 'dist/img/DJ_EXPRESS.jpg' %}" alt="">
+        </div>
+        <div class="right">
+            <h1><b>RPL KELOMPOK 14</b></h1>
+            <h1><b>SISTEM KURIR</b></h1>
+            <h5><b><a href="{% url 'index' %}" class="btn btn-info">Go To Dashboard</a></b></h5>
+        </div>
+    </div>
+    {% endblock %}

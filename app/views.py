@@ -43,17 +43,8 @@ def login_post(request):
 @login_required()
 #index
 def index(request):
-    # data_barang = Barang.objects.all()  # use .all() to get all objects
-    # data_kurir = Kurir.objects.all()
-    # data_task = TaskDelivery.objects.all()
+    return render(request, 'layout/index.html')
 
-    # context = {
-        # 'data_barang': data_barang ,
-        # 'data_kurir' : data_kurir, # use : instead of = in dictionary
-        # 'data_task' : data_task
-    # }
-    # return render(request, 'index.html')
-    return redirect(request.META.get('HTTP_REFERER', '/'))
 
 
 #logout
@@ -62,6 +53,14 @@ def logout(request):
     request.session.flush()
     messages.success(request, 'BERHASIL LOGOUT')
     return redirect('LoginPage')
+
+
+
+
+
+
+
+
 
 
 #CRUD Kurir
@@ -320,8 +319,13 @@ def delete_task(request, id_task):
 
 
 
+
+
+
 #home & contach
 def home(request):
     return render(request, 'home.html')
 def contact(request):
     return render(request, 'contact.html')
+
+

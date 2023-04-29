@@ -20,39 +20,39 @@
         </div>
         <div class="card-body">
           <table class="table table-bordered">
-              <thead>
-                <tr>
-                  <th>ID Kurir</th>
-                  <th>Nama Kurir</th>
-                  <th>Nomor HP</th>
-                  <th>Area Pengiriman</th>
-                  <th>Aksi</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for kurir in data_kurir %}
-                <tr>
-                  <td>{{ kurir.id_kurir }}</td>
-                  <td>{{ kurir.nama }}</td>
-                  <td>{{ kurir.no_telepon }}</td>
-                  <td>{{ kurir.area_pengiriman }}</td>
-                  <td>
-                    <a class="btn btn-dark btn-sm" href="{% url 'updateKurir' kurir.id_kurir %}">
-                        <i class="fa fa-pencil-alt"></i>
-                    </a>
-                    <a onclick="return confirm('Anda yakin ingin menhapus data Kurir dengan ID Kurir = {{kurir.id_kurir}} ?')" 
-                    class="btn btn-danger btn-sm" href="{% url 'deleteKurir' kurir.id_kurir %}">
-                      <i class="fa fa-trash"></i> 
-                    </a>
-                  </td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </div>
+            <thead>
+              <tr>
+                <th>ID Kurir</th>
+                <th>Nama Kurir</th>
+                <th>Nomor HP</th>
+                <th>Area Pengiriman</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for kurir in data_kurir %}
+              <tr>
+                <td>{{ kurir.id_kurir }}</td>
+                <td>{{ kurir.nama }}</td>
+                <td>{{ kurir.no_telepon }}</td>
+                <td>{{ kurir.area_pengiriman }}</td>
+                <td>
+                  <a class="btn btn-dark btn-sm" href="{% url 'updateKurir' kurir.id_kurir %}">
+                      <i class="fa fa-pencil-alt"></i>
+                  </a>
+                  <a onclick="return confirm('Anda yakin ingin menghapus data Kurir dengan ID Kurir = {{kurir.id_kurir}} ?')" 
+                  class="btn btn-danger btn-sm" href="{% url 'deleteKurir' kurir.id_kurir %}">
+                    <i class="fa fa-trash"></i> 
+                  </a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
         </div>
       </div>
-    <!-- </div> -->
+    </div>
+  <!-- </div> -->
   </form>
 </body>
 {% endblock %}
