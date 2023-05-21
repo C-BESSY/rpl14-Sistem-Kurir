@@ -53,7 +53,7 @@ def index(request):
 def logout(request):
     # Hapus data session
     request.session.flush()
-    messages.success(request, 'BERHASIL LOGOUT')
+    messages.success(request, 'ANDA TELAH LOGOUT')
     
     return redirect('LoginPage')
 
@@ -137,8 +137,8 @@ def delete_kurir(request, id_kurir):
 
 
 
-@login_required()
 #CRUD Barang
+@login_required()
 def tambah_barang(request):
     return render(request, 'barangs/tambah_barang.html')
 

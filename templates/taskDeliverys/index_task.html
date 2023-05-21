@@ -4,51 +4,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <title>Data Task Delivery</title>
-    <style> 
-      #header-task {
-        background-color: #f1f1f1;
-        text-align: center;
-        align-items: center;
-        padding: 5px;
-      } 
-      #tambah-task { margin-left: 10%; }
-      #table-title { margin-left: 10%; }
-      .search-container {
-        display: flex;
-        align-items: center;
-        margin-bottom: 5px;
-        margin-left: 20;
-      }
-      #search-input {
-        flex-grow: 1;
-        padding: 10px;
-        border: none;
-        border-radius: 2px 0 0 5px;
-        font-size: 16px;
-        margin-left: 30%;
-      }
-      #search-input:hover {background-color: #eae4e4;}
-      #search-button {
-        background-color: #56c18d;
-        border: none;
-        color: white;
-        padding: 10px 15px;
-        border-radius: 0 5px 5px 0;
-        cursor: pointer;
-      }
-      #search-button:hover { background-color: #45a049; }
-      #search-button i { font-size: 18px; }
-    </style>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/vfs_fonts.js"></script>
+
+  <title>Data Task Delivery</title>
+  <style> 
+    #header-task {
+      background-color: #f1f1f1;
+      text-align: center;
+      align-items: center;
+      padding: 5px;
+    } 
+    #tambah-task { margin-left: 10%; }
+    #table-title { margin-left: 10%; }
+    .search-container {
+      display: flex;
+      align-items: center;
+      margin-bottom: 5px;
+      margin-left: 20;
+    }
+    #search-input {
+      flex-grow: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 2px 0 0 5px;
+      font-size: 16px;
+      margin-left: 30%;
+    }
+    #search-input:hover {background-color: #eae4e4;}
+    #search-button {
+      background-color: #56c18d;
+      border: none;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 0 5px 5px 0;
+      cursor: pointer;
+    }
+    #search-button:hover { background-color: #45a049; }
+    #search-button i { font-size: 18px; }
+  </style>
 </head>
 <body>
-  <button type="button" onclick="printPage()">
-    <i class='fas fa-print' style='font: size 15px;color:red'></i>
-  </button> 
+  <div>
+    <button onclick="printPage()">
+      <i class='fas fa-print' style='font: size 15px'></i>
+    </button>
+  </div><br>
   <script>
     function printPage() {
       window.print();
@@ -150,7 +155,23 @@
                 </a><p></p>
                 <a onclick="return confirm('Anda yakin ingin menghapus data Task dengan ID Task = {{task.id_task}} ?')" class="btn btn-danger btn-sm" href="{% url 'deleteTask' task.id_task %}">
                   <i class="fa fa-trash"></i>
+                </a><br><p></p>
+                <a href="#" onclick="generatePDF()" target="_blank" rel="noopener noreferrer">
+                  <i class='far fa-file-pdf' style='font-size:38px;color:red'></i>
                 </a>
+                <script>
+                  function generatePDF() {
+                    // Define your PDF document content
+                    const documentDefinition = {
+                      content: [
+                        // Define your PDF content here
+                        'Hello, this is your PDF content!',
+                      ],
+                    };
+                    // Generate the PDF
+                    pdfMake.createPdf(documentDefinition).open();
+                  }
+                </script>
               </td>
             </tr>
             {% endfor %}

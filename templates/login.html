@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,8 +18,17 @@
             margin: 0;
             box-sizing: border-box;
         }
+        .login-logo{
+            margin-top: 30px;
+            margin-left: 70px;
+        }
+        img{
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+        }
         body{
-            background-color: #d5d4de;
+            background-color: #838198;
         }
         .background{
             width: 430px;
@@ -139,6 +150,9 @@
     </style>
 </head>
 <body>
+    <div class="login-logo">
+        <img src="{% static 'dist/img/DJ_EXPRESS.jpg' %}" alt="">
+    </div>
     <div class="background">
         <div class="shape"></div>
         <div class="shape"></div>
