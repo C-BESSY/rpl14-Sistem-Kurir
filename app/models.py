@@ -1,9 +1,10 @@
 from django.db import models
 
+
 # Create your models here.
 class Admin(models.Model):
-    id_admin = models.CharField(max_length=8, unique=True,null=True)
-    nama_admin = models.CharField(max_length=10,null=True)
+    userid = models.CharField(max_length=8, unique=True,null=True)
+    username = models.CharField(max_length=10,null=True)
     password = models.CharField(max_length=10,null=True)
 
     # def __str__(self):
@@ -48,4 +49,3 @@ class TaskDelivery(models.Model):
 
     def __str__(self):
         return self.id_task
-

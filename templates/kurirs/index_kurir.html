@@ -1,4 +1,4 @@
-{% extends 'layout/index.html' %}
+{% extends 'layout/index.html' %}  
 
 {% block content %}
 <!DOCTYPE html>
@@ -7,16 +7,101 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Barang</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Data Kurir</title>
+    <style> 
+      #header-kurir {
+        background-color: #f1f1f1;
+        text-align: center;
+        align-items: center;
+        padding: 5px;
+      } 
+      #tambah-kurir { margin-left: 10%; }
+      #table-title { margin-left: 10%; }
+      .search-container {
+        display: flex;
+        align-items: center;
+        margin-bottom: 5px;
+        margin-left: 20;
+      }
+      #search-input {
+        flex-grow: 1;
+        padding: 10px;
+        border: none;
+        border-radius: 2px 0 0 5px;
+        font-size: 16px;
+        margin-left: 30%;
+      }
+      #search-input:hover {
+        background-color: #eae4e4;
+      }
+      #search-button {
+        background-color: #56c18d;
+        border: none;
+        color: white;
+        padding: 10px 15px;
+        border-radius: 0 5px 5px 0;
+        cursor: pointer;
+      }
+      #search-button:hover { background-color: #45a049; }
+      #search-button i { font-size: 18px; }
+    </style>
 </head>
+
 <body>
-  <!-- <form action="{% url 'tambahKurir' %}"> -->
+  <button type="button" onclick="printPage()">
+    <i class='fas fa-print' style='font: size 15px;color:red'></i>
+  </button> 
+  <script>
+    function printPage() {
+      window.print();
+    }
+    </script>
   <!-- <div class="container"> -->
     <div class="flex-column">
       <div class="card">
-        <div class="card-header d-flex justify-content-between">
-          <h2 class="card-title" style="font-weight: bold;">Table Kurir</h2>
-          <a class="btn btn-primary" href="{% url 'tambahKurir' %}">Tambah Kurir</a>
+        <div class="card-header d-flex justify-content-between" id="header-kurir">
+          <a id="tambah-kurir" class="btn btn-primary" href="{% url 'tambahKurir' %}">Tambah Kurir</a>
+          <h2 id="table-title" class="card-title" style="font-weight: bold;">Table Kurir</h2>
+          <div class="search-container">
+            <input type="text" id="search-input" placeholder="Search...">
+            <button type="button" id="search-button">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+          <script>
+            $(document).ready(function() {
+              var originalTable = $('tbody').html(); // Simpan isi tabel asli
+              var noDataMessage = '<tr id="no-data-row"><td colspan="5">Tidak Dapat Menemukan Data</td></tr>'; // Pesan jika tidak ada data
+              
+              $('#search-input').on('input', function() {
+                var searchText = $(this).val().toLowerCase();
+                if (searchText === '') {
+                  $('tbody').html(originalTable); // Kembalikan tabel ke keadaan semula
+                  return;
+                }
+                
+                $('tbody').html(originalTable); // Kembalikan tabel ke keadaan semula sebelum pencarian
+                
+                var found = false;
+                $('tbody tr').each(function() {
+                  var rowData = $(this).text().toLowerCase();
+                  if (rowData.indexOf(searchText) === -1) {
+                    $(this).hide();
+                  } else {
+                    $(this).show();
+                    found = true;
+                  }
+                });
+                
+                if (!found) {
+                  $('tbody').append(noDataMessage); // Tampilkan pesan jika tidak ada hasil pencarian
+                } else {
+                  $('#no-data-row').remove(); // Hapus pesan jika ada hasil pencarian
+                }
+              });
+            });
+          </script>
         </div>
         <div class="card-body">
           <table class="table table-bordered">
@@ -53,6 +138,6 @@
       </div>
     </div>
   <!-- </div> -->
-  </form>
+  <!-- </form> -->
 </body>
 {% endblock %}

@@ -1,14 +1,15 @@
 from django.urls import path
-# from app import views
 from .views import home,contact
 from .views import index,LoginPage,login_post,logout
 from .views import index_kurir,tambah_kurir,post_kurir,update_kurir,post_update_kurir,delete_kurir
 from .views import index_barang,tambah_barang,post_barang,update_barang,post_update_barang,delete_barang
 from .views import index_task,tambah_task,post_task,update_task,post_update_task,delete_task
+# from .views import change_password
 
 urlpatterns = [
     path('home', home, name='home'),
     path('contact', contact, name='contact'),
+
 
     path('', LoginPage, name='LoginPage'),
     path('login_post', login_post, name='loginPost'),
@@ -24,7 +25,7 @@ urlpatterns = [
     path('delete_kurir/<str:id_kurir>/', delete_kurir, name='deleteKurir'),
 
     #CRUD Barang
-    path('barangs/index_barang/', index_barang, name='indexBarang'),
+    path('index_barang/', index_barang, name='indexBarang'),
     path('tambah_barang/', tambah_barang, name='tambahBarang'),
     path('post_barang', post_barang, name='postBarang'),
     path('update_barang/<str:id_barang>/', update_barang, name='updateBarang'),
@@ -37,5 +38,8 @@ urlpatterns = [
     path('post_task', post_task, name='postTask'),
     path('update_task/<str:id_task>/', update_task, name='updateTask'),
     path('post_update_task/', post_update_task, name='post_updateTask'),
-    path('delete_task/<str:id_task>/', delete_task, name='deleteTask')
+    path('delete_task/<str:id_task>/', delete_task, name='deleteTask'),
+    
+    #ganti password
+    # path('change_password/', change_password, name='change_password')
 ]

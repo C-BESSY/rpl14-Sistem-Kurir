@@ -1,3 +1,31 @@
 h1 {
     color: blueviolet;
 }
+
+.button {
+    display: inline-block;
+    background-color: #252825;
+    color: white;
+    padding: 4px 20px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 14px;
+    border-radius: 2px;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-submit {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 4px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 10px;
+    cursor: pointer;
+    border-radius: 2px;
+}
+

@@ -2,84 +2,76 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tambah Task</title>
-    <style>
-      .button {
-        background-color: rgb(2, 155, 81);
-        color: white;
-        padding: 5px 10px;
-        border-radius: 3px;
-        text-decoration: none;
-      }
-    </style>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tambah Task</title>
+  <link rel="stylesheet" type="text/css" href="/static/style.css">
 </head>
 
 <body>
-    {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-        <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
+  {% if messages %}
+  <ul class="messages">
+      {% for message in messages %}
+      <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+      {% endfor %}
+  </ul>
+  {% endif %}
 
-    <form action=" {% url 'postTask' %} " method="POST" enctype="multipart/form-data">
-      {% csrf_token %}
-      <h1>FORM TAMBAH TASK</h1>
-      <p>TASK ID : </p>
-      <input type="text" name="id_task" id="id_task" maxlength="10" required><BR></BR>
-      <p>JENIS : </p>
-      <input type="radio" name="delivery_type" id="pos" value="pos" onchange="onDeliveryTypeChange()">
-      <label for="pos">POS</label><br>
-      </script>
-      <input type="radio" name="delivery_type" id="pod" value="pod" onchange="onDeliveryTypeChange()">
-      <label for="pod">POD</label>
-      <script>
-        function onDeliveryTypeChange() {
-          var posRadio = document.getElementById("pos");
-          var podRadio = document.getElementById("pod");
-          var buktiPodInput = document.getElementById("bukti_pod");
-          var buktiPosInput = document.getElementById("bukti_pos");
-          var waktuPosInput = document.getElementById("waktu_pos");
-          var waktuPodInput = document.getElementById("waktu_pod");
-          if (posRadio.checked) {
-            buktiPodInput.style.display = "none";
-            waktuPodInput.style.display = "none";
-            waktuPosInput.style.display = "block";
-            buktiPosInput.style.display = "block";
-          } else if (podRadio.checked) {
-            buktiPosInput.style.display = "none";
-            waktuPosInput.style.display = "none";
-            buktiPodInput.style.display = "block";
-            waktuPodInput.style.display = "block";
-          }
+  <form action=" {% url 'postTask' %} " method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <h1>FORM TAMBAH TASK</h1>
+    <p>TASK ID : </p>
+    <input type="text" name="id_task" id="id_task" maxlength="10" required><BR></BR>
+    <p>JENIS : </p>
+    <input type="radio" name="delivery_type" id="pos" value="pos" onchange="onDeliveryTypeChange()">
+    <label for="pos">POS</label><br>
+    </script>
+    <input type="radio" name="delivery_type" id="pod" value="pod" onchange="onDeliveryTypeChange()">
+    <label for="pod">POD</label>
+    <script>
+      function onDeliveryTypeChange() {
+        var posRadio = document.getElementById("pos");
+        var podRadio = document.getElementById("pod");
+        var buktiPodInput = document.getElementById("bukti_pod");
+        var buktiPosInput = document.getElementById("bukti_pos");
+        var waktuPosInput = document.getElementById("waktu_pos");
+        var waktuPodInput = document.getElementById("waktu_pod");
+        if (posRadio.checked) {
+          buktiPodInput.style.display = "none";
+          waktuPodInput.style.display = "none";
+          waktuPosInput.style.display = "block";
+          buktiPosInput.style.display = "block";
+        } else if (podRadio.checked) {
+          buktiPosInput.style.display = "none";
+          waktuPosInput.style.display = "none";
+          buktiPodInput.style.display = "block";
+          waktuPodInput.style.display = "block";
         }
-        </script>
-        <p>WAKTU POS : </p>
-        <input type="date" name="waktu_pos" id="waktu_pos" style="display: none;" >
-        <p>BUKTI POS : </p>
-        <input type="file" name="bukti_pos" id="bukti_pos" style="display:none" >
-        <p>WAKTU POD : </p>
-        <input type="date" name="waktu_pod" id="waktu_pod" style="display:none" >
-        <p>BUKTI POD : </p>
-        <input type="file" name="bukti_pod" id="bukti_pod" style="display:none" >
-        <p>JUMLAH PAKET(POS) : </p>
-        <input type="text" name="jml_paket_pos" id="jml_paket_pos" required>
-        <p>JUMLAH PAKET(POD) : </p>
-        <input type="text" name="jml_paket_pod" id="jml_paket_pod" required>
-        <p>AREA PENGIRIMAN : </p>
-        <select name="area_pengiriman" required>
-          {% for kurir in daftar_kurir %}
-          <option value="{{ kurir.area_pengiriman }}">{{ kurir.area_pengiriman }}</option>
-          {% endfor %}
-        </select>
-        <p></p>
-      <button type="submit" class="btn btn-primary">SUBMIT</button>
-      <a href="{% url 'indexTask' %}" class="button">KEMBALI</a>
-    </form>
-  </body>
-  
-  </html>
+      }
+    </script>
+    <p>WAKTU POS : </p>
+    <input type="date" name="waktu_pos" id="waktu_pos" style="display: none;" >
+    <p>BUKTI POS : </p>
+    <input type="file" name="bukti_pos" id="bukti_pos" style="display:none" >
+    <p>WAKTU POD : </p>
+    <input type="date" name="waktu_pod" id="waktu_pod" style="display:none" >
+    <p>BUKTI POD : </p>
+    <input type="file" name="bukti_pod" id="bukti_pod" style="display:none" >
+    <p>JUMLAH PAKET(POS) : </p>
+    <input type="text" name="jml_paket_pos" id="jml_paket_pos" required>
+    <p>JUMLAH PAKET(POD) : </p>
+    <input type="text" name="jml_paket_pod" id="jml_paket_pod" required>
+    <p>AREA PENGIRIMAN : </p>
+    <select name="area_pengiriman" required>
+      {% for kurir in daftar_kurir %}
+      <option value="{{ kurir.area_pengiriman }}">{{ kurir.area_pengiriman }}</option>
+      {% endfor %}
+    </select>
+    <p></p>
+    <a href="{% url 'indexTask' %}" class="button">BATAL</a>
+    <button type="submit" class="btn btn-submit">SUBMIT</button>
+  </form>
+</body>
+
+</html>

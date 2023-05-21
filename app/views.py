@@ -6,9 +6,11 @@ from .models import Barang
 from .models import TaskDelivery
 from django.contrib import messages
 from functools import wraps
-# from .decorators import login_required
+from django.contrib.auth.decorators import login_required
 
-# Create your views here.
+
+
+# Create your views here.   
 def login_required():
     def decorator(view_func):
         @wraps(view_func)
@@ -35,7 +37,7 @@ def login_post(request):
         request.session['logged_in'] = True
         request.session['userid'] = userid
         messages.success(request, 'BERHASIL LOGIN')
-        return redirect('index')
+        return redirect('home')
     else:
         messages.error(request, 'USER TIDAK DITEMUKAN')
         return redirect('LoginPage')
@@ -62,7 +64,7 @@ def logout(request):
 
 
 
-
+@login_required()
 #CRUD Kurir
 def tambah_kurir(request):
     return render(request, 'kurirs/tambah_kurir.html')
@@ -86,6 +88,7 @@ def post_kurir(request):
         messages.success(request, 'KURIR BERHASIL DITAMBAHKAN.')
     return redirect('/index_kurir')
 
+@login_required()
 def index_kurir(request):
     data_kurir = Kurir.objects.all()
     context = {
@@ -93,6 +96,7 @@ def index_kurir(request):
     }
     return render(request, 'kurirs/index_kurir.html', context)
 
+@login_required()
 def update_kurir(request, id_kurir):
     data_kurir = Kurir.objects.get(id_kurir=id_kurir)
     context = {
@@ -114,14 +118,15 @@ def post_update_kurir(request):
         kurir.no_telepon = no_telepon
         kurir.area_pengiriman = area_pengiriman
         kurir.save()
-        messages.success(request, 'BERHASIL UPDATE DATA KURIR')
+        messages.success(request, f"BERHASIL UPDATE DATA KURIR DENGAN ID {id_kurir}")
     except ValueError:
         messages.error(request, 'PERIKSA KEMBALI NO TELEPON ANDA!')
-    return redirect(request.META.get('HTTP_REFERER', '/'))
+    return redirect('/index_kurir')
 
+@login_required()
 def delete_kurir(request, id_kurir):
     Kurir.objects.get(id_kurir=id_kurir).delete()
-    messages.success(request, 'BERHASIL HAPUS KURIR')
+    messages.success(request, f"BERHASIL HAPUS KURIR DENGAN ID {id_kurir}")
     return redirect(request.META.get('HTTP_REFERER', '/'))
 
 
@@ -131,7 +136,7 @@ def delete_kurir(request, id_kurir):
 
 
 
-
+@login_required()
 #CRUD Barang
 def tambah_barang(request):
     return render(request, 'barangs/tambah_barang.html')
@@ -146,7 +151,7 @@ def post_barang(request):
 
     if Barang.objects.filter(id_barang=id_barang).exists():
         messages.error(request, 'ID BARANG SUDAH DIGUNAKAN')
-        return render(request, 'barang/tambah_barang.html')
+        return render(request, 'barangs/tambah_barang.html')
     else:
         tambah_barang = Barang(
             id_barang=id_barang,
@@ -158,8 +163,9 @@ def post_barang(request):
         )
         tambah_barang.save()
         messages.success(request, 'BERHASIL TAMBAH BARANG')
-    return redirect('barangs/index_barang')
+    return redirect('/index_barang')
 
+@login_required()
 def index_barang(request):
     data_barang = Barang.objects.all()
     context = {
@@ -167,12 +173,13 @@ def index_barang(request):
     }
     return render(request, 'barangs/index_barang.html', context)
 
+@login_required()
 def update_barang(request, id_barang):
     data_barang = Barang.objects.get(id_barang=id_barang)
     context = {
         'data_barang': data_barang
     }
-    return render (request, 'barang/update_barang.html', context)
+    return render (request, 'barangs/update_barang.html', context)
 
 def post_update_barang(request):
     #ambil data post
@@ -192,16 +199,16 @@ def post_update_barang(request):
         barang.nama_penerima = nama_penerima
         barang.status_barang = status_barang
         barang.save()
-        messages.success(request, 'BERHASIL UPDATE DATA BARANG')
-        return render(request, '/index_barang')
+        messages.success(request, f"BERHASIL UPDATE DATA BARANG DENGAN ID '{id_barang}'")
     except ValueError:
         messages.error(request, 'PERIKSA KEMBALI NO TELEPON ANDA!')
-    return redirect(request.META.get('HTTP_REFERER', '/'))
+    return redirect('/index_barang')
 
+@login_required()
 def delete_barang(request, id_barang):
     barang = Barang.objects.get(id_barang=id_barang)
     barang.delete()
-    messages.success(request, 'BERHASIL HAPUS BARANG')
+    messages.success(request,  f"BERHASIL HAPUS BARANG DENGAN ID '{id_barang}")
     return redirect(request.META.get('HTTP_REFERER', '/'))
 
 
@@ -211,6 +218,7 @@ def delete_barang(request, id_barang):
 
 
 
+@login_required()
 #CRUD Task
 def tambah_task(request):
     daftar_kurir = Kurir.objects.all()
@@ -263,8 +271,9 @@ def post_task(request):
         )
         tambah_task.save()
         messages.success(request, 'BERHASIL TAMBAH TASK')
-    return redirect('index')
+    return redirect('taskDeliverys/index_task')
 
+@login_required()
 def index_task(request):
     data_task = TaskDelivery.objects.all()
     context = {
@@ -272,6 +281,7 @@ def index_task(request):
     }
     return render(request, 'taskDeliverys/index_task.html', context)
 
+@login_required()
 def update_task(request, id_task):
     data_task = TaskDelivery.objects.get(id_task=id_task)
     context = {
@@ -307,14 +317,15 @@ def post_update_task(request):
         task.jml_paket_pod = jml_paket_pod
         # task.id_kurir = id_kurir
         task.save()
-        messages.success(request, 'BERHASIL UPDATE DATA TASK')
+        messages.success(request, f"BERHASIL UPDATE DATA TASK DENGAN ID '{id_task}'")
     except ValueError:
         messages.error(request, 'PERIKSA KEMBALI ID TASK!')
-    return redirect(request.META.get('HTTP_REFERER', '/'))
+    return redirect('/index_task')
 
+@login_required()
 def delete_task(request, id_task):
     TaskDelivery.objects.get(id_task=id_task).delete()
-    messages.success(request, 'BERHASIL HAPUS TASK')
+    messages.success(request, f"BERHASIL HAPUS TASK DENGAN ID '{id_task}'")
     return redirect(request.META.get('HTTP_REFERER', '/'))
 
 
@@ -322,10 +333,41 @@ def delete_task(request, id_task):
 
 
 
-#home & contach
+
+
+# @login_required()
+# def change_password(request):
+#     admin = Admin.objects.get(id_admin=request.session['userid'])
+#     if request.method == 'POST':
+#         form = AdminPasswordChangeForm(admin, request.POST)
+#         if form.is_valid():
+#             admin = form.save(commit=False)
+#             admin.save()
+#             update_session_auth_hash(request, admin)  # Important!
+#             messages.success(request, 'Password berhasil diubah.')
+#             return redirect('index')
+#     else:
+#         form = AdminPasswordChangeForm(admin)
+#     return render(request, 'change_password.html', {'form': form, 'admin': admin})
+
+
+
+
+
+
+
+
+
+#home & contact
+@login_required()
 def home(request):
     return render(request, 'home.html')
+@login_required()
 def contact(request):
     return render(request, 'contact.html')
-
-
+@login_required()
+def mark_all_as_read(request):
+    unread_notifications = Notification.objects.filter(user=request.user, read=False)
+    unread_notifications.update(read=True)
+    
+    return redirect(request.META.get('HTTP_REFERER', '/'))  # Ganti dengan URL menu notifikasi Anda

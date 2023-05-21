@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Dashboard</title>
+  <title>Django Express</title>
   <!-- Font Awesome -->
   <link rel="stylesheet" href="{% static 'adminlte/plugins/fontawesome-free/css/all.min.css' %}">
   <!-- Ionicons -->
@@ -26,6 +26,14 @@
       margin-bottom: 50px; /* must be same height as footer  */
     }
 
+    .time-container {
+      display: grid;
+      font-size: small;
+      margin-top: 10px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px; /* Jarak antara elemen */
+    }
+
     footer {
       height: 50px; /* height of the footer */
     }
@@ -43,10 +51,26 @@
         </li>
         <li class="nav-item d-none d-sm-inline-block">
           <a href="{% url 'home' %}" class="nav-link">Home</a>
-         </li>
-         <li class="nav-item d-none d-sm-inline-block">
-           <a href="{% url 'contact' %}" class="nav-link">Contact</a>
-         </li>
+        </li>
+          <li class="nav-item d-none d-sm-inline-block">
+            <a href="{% url 'contact' %}" class="nav-link">Contact</a>
+          </li>
+        <li>
+          <div class="time-container">
+            <p class="time-now" id="current-date"></p>
+            <p class="time-now" id="current-time"></p>
+            <script>
+              setInterval(updateDateTime, 1000);
+              function updateDateTime() {
+                  var currentDate = new Date();
+                  var dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                  var timeOptions = { hour: 'numeric', minute: 'numeric', second: 'numeric' };
+                  document.getElementById('current-date').textContent = currentDate.toLocaleDateString('en-US', dateOptions);
+                  document.getElementById('current-time').textContent = currentDate.toLocaleTimeString('en-US', timeOptions);
+              }
+            </script>
+          </div>          
+        </li>
       </ul>
 
       <!-- Right navbar links -->
@@ -57,37 +81,41 @@
             <i class="fas fa-user"> Walter White Yo!</i>
           </a>
           <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+            <span class="dropdown-header">Account</span>
             <div class="dropdown-divider"></div>
             <a href="#" class="dropdown-item">
+              <i class="fas fa-fingerprint"></i> Ubah Password
+            </a>
+            {% comment %} <a href="#" class="dropdown-item">
               <i class="fas fa-users mr-2"></i> 8 friend requests
               <span class="float-right text-muted text-sm">12 hours</span>
-            </a>
-            <!-- <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a> -->
+            </a> {% endcomment %}
+            {% comment %} <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a> {% endcomment %}
           </div>
         </li>
 
         <!-- Notifications Dropdown Menu -->
         <li class="nav-item dropdown">
           <a class="nav-link" data-toggle="dropdown" href="#">
-              <i class="far fa-bell"></i>
-              <span class="badge badge-warning navbar-badge">2</span>
+            <i class="far fa-bell"></i>
+            <span class="badge badge-warning navbar-badge">2</span>
           </a>
           <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-            <span class="dropdown-header">15 Notifications</span>
+            <span class="dropdown-header">3 Notifications</span>
             <div class="dropdown-divider"></div>
             <a href="#" class="dropdown-item">
-                <i class="fas fa-file mr-2"></i> 5 new reports
-                <span class="float-right text-muted text-sm">2 days</span>
-            </a>
+              <i class="fas fa-file mr-2"></i> Kurir ID "" Dihapus
+              <span class="float-right text-muted text-sm">5 Hours</span>
+            </a>  
             <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+            <a href="#" class="dropdown-item dropdown-footer">Mark All as Read</a>
           </div>
         </li>
             
         <!-- Log Out -->
         <li class="nav-item dropdown">
           <a onclick="return confirm('Apakah Anda Ingin Log Out?')" class="nav-link" href="{% url 'logout' %}">
-              <i class="fas fa-sign-out-alt"></i>
+              <i class="fas fa-sign-out-alt"> LogOut </i>
           </a>
         </li>
       </ul>
@@ -129,34 +157,34 @@
         </div>
 
         <!-- Sidebar Menu -->
-        <nav class="mt-4">
-          <ul class="nav nav-pills nav-sidebar flex-column flex-fill" data-widget="treeview" role="menu" data-accordion="false">
-            <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
-            <li class="nav-item">
-              <a href="{% url 'index' %}" class="nav-link">
-                <i class="fas fa-border-style" style="font-size:25px"></i>
-                <p>Dashboard <span class="right badge badge-danger"></span></p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="{% url 'indexKurir' %}" class="nav-link">
-                <i class="fa fa-user" style="font-size:25px"></i>
-                <p>Kurir <span class="right badge badge-danger"></span></p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="{% url 'indexBarang' %}" class="nav-link">
-                <i class='fas fa-box-open' style='font-size:25px'></i>
-                <p>Barang</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="{% url 'indexTask' %}" class="nav-link">
-                <i class='fas fa-tasks' style='font-size:25px'></i>
-                <p>Task Delivery</p>
-              </a>
-            </li>
-          </ul>
+      <nav class="mt-4">
+        <ul class="nav nav-pills nav-sidebar flex-column flex-fill" data-widget="treeview" role="menu" data-accordion="false">
+          <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
+          <li class="nav-item">
+            <a href="{% url 'index' %}" class="nav-link">
+              <i class="fas fa-border-style" style="font-size:25px"></i>
+              <p>Dashboard <span class="right badge badge-danger"></span></p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{% url 'indexKurir' %}" class="nav-link">
+              <i class="fa fa-user" style="font-size:25px"></i>
+              <p>Kurir <span class="right badge badge-danger"></span></p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{% url 'indexBarang' %}" class="nav-link">
+              <i class='fas fa-box-open' style='font-size:25px'></i>
+              <p>Barang</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{% url 'indexTask' %}" class="nav-link">
+              <i class='fas fa-tasks' style='font-size:25px'></i>
+              <p>Task Delivery</p>
+            </a>
+          </li>
+        </ul>
       </nav>
       <!-- /.sidebar-menu -->
     </aside>
@@ -168,19 +196,21 @@
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <!-- <h1>Dashboard</h1> -->
-              <a href="http://127.0.0.1:8000/index  " class="navbar-brand">
+
+              <!-- <a href="http://127.0.0.1:8000/index  " class="navbar-brand"> -->
+
+              <a href="#" class="navbar-brand">
                 <img class="img-fluid logo" src="{% static 'dist/img/logo.jpg' %}" alt="cargoton"
                 style="max-width: 200px; max-height: 200px;">
               </a>
             </div>
-            <div class="col-sm-6">
-              <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-                <li class="breadcrumb-item active">Dashboard</li>
-                <p></p>
-              </ol>
-            </div>
+            <!-- <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                  <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                  <li class="breadcrumb-item active">Dashboard</li>
+                  <p></p>
+                </ol>
+            </div> -->
             <br><br>
           </div>
         </div>
@@ -202,49 +232,27 @@
           {% endfor %}
         {% endif %}
       </section>
-      
+        
       <!-- Main content -->
       <div class="content">
-        <div class="container-fluid">
+        <div class="container-wrapper">
           {% block content %}{% endblock %}
         </div>
       </div>
-      <!-- <div style="background-image: linear-gradient(to bottom, #e3e5cc, #e7e3dc);">
-        <div>
-          <ul>
-            <h5 style="font-style:italic">What is Lorem Ipsum?</h5>
-            <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-            </p>
-            <h5 style="font-style:italic">Where does it come from?</h5>
-            <p>
-              Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32. The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.
-            </p>
-            <h5 style="font-style:italic">Why do we use it?</h5>
-            <p>
-              It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
-            </p>
-            <h5>Where can I get some?</h5>
-            <p>
-              There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.
-            </p>
-          </ul>
-        </div>
-      </div> -->
       <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
-    
-      <!-- Main Footer -->
-        <footer class="main-footer" >
-          <!-- To the right -->
-          <div class="float-right d-none d-sm-inline">
-              Anything you want
-          </div>
-          <!-- Default to the left -->
-          <strong>Copyright &copy; SistemKurir <a href="https://www.instagram.com/chassie.b_/">Kel.14</a>.</strong> All rights
-          reserved.
-        </footer>
+
+    <!-- Main Footer -->
+    <div>
+      <footer class="main-footer" >
+        <!-- To the right -->
+        <div class="float-right d-none d-sm-inline">
+          Anything you want
+        </div>
+        <!-- Default to the left -->
+        <strong>Copyright &copy; SistemKurir <a target="_blank" href="https://www.instagram.com/chassie.b_/">Kel.14</a>.</strong> All rights reserved.
+      </footer>
     </div>
     <!-- /.content-wrapper -->
   </div>

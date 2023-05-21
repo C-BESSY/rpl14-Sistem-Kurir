@@ -7,79 +7,149 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>Data Task Delivery</title>
+    <style> 
+      #header-task {
+        background-color: #f1f1f1;
+        text-align: center;
+        align-items: center;
+        padding: 5px;
+      } 
+      #tambah-task { margin-left: 10%; }
+      #table-title { margin-left: 10%; }
+      .search-container {
+        display: flex;
+        align-items: center;
+        margin-bottom: 5px;
+        margin-left: 20;
+      }
+      #search-input {
+        flex-grow: 1;
+        padding: 10px;
+        border: none;
+        border-radius: 2px 0 0 5px;
+        font-size: 16px;
+        margin-left: 30%;
+      }
+      #search-input:hover {background-color: #eae4e4;}
+      #search-button {
+        background-color: #56c18d;
+        border: none;
+        color: white;
+        padding: 10px 15px;
+        border-radius: 0 5px 5px 0;
+        cursor: pointer;
+      }
+      #search-button:hover { background-color: #45a049; }
+      #search-button i { font-size: 18px; }
+    </style>
 </head>
 <body>
   <div class="flex-column">
-      <div class="card">
-        <div class="card-header d-flex justify-content-between">
-          <h2 class="card-title" style="font-weight: bold;">Task Delivery</h2>
-          <a class="btn btn-primary" href="{% url 'tambahTask' %}">Tambah Task</a>
+    <div class="card">
+      <div id="header-task" class="card-header d-flex justify-content-between">
+        <a id="tambah-task" class="btn btn-primary" href="{% url 'tambahTask' %}">Tambah Task</a>
+        <h2 id="table-title" class="card-title" style="font-weight: bold;">Task Delivery</h2>
+        <div class="search-container">
+          <input type="text" id="search-input" placeholder="Search...">
+          <button type="button" id="search-button">
+            <i class="fas fa-search"></i>
+          </button>
         </div>
-        <!-- /.card-header -->
-        <div class="card-body">
-          <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th>ID Task</th>
-                <th>Waktu POS</th>
-                <th>Waktu POD</th>
-                <th>Bukti POS</th>
-                <th>Bukti POD</th>
-                <th>Jumlah Paket POS</th>
-                <th>Jumlah Paket POD</th>
-                <th>Kurir</th>
-                <th>Barang</th>
-                <th>Aksi</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for task in data_task %}
-              <tr>
-                <td>{{ task.id_task }}</td>
-                <td>{{ task.waktu_pos }}</td>
-                <td>{{ task.waktu_pod }}</td>
-                <td>
-                  {% if task.bukti_pos %}
-                    <img src="{{ task.bukti_pos }}" alt="{{ task.id_task }}-bukti-pos" height="100">
-                  {% else %}
-                  {% endif %}
-                </td>
-                <td>
-                  {% if task.bukti_pod %}
-                    <img src="{{ task.bukti_pod }}" alt="{{ task.id_task }}-bukti-pod" height="100">
-                  {% else %}
-                  {% endif %}
-                </td>
-                <td>{{ task.jml_paket_pos }}</td>
-                <td>{{ task.jml_paket_pod }}</td>
-                <td>{{ task.id_kurir.nama }}</td>
-                <td>
-                  <ul>
-                    {% for barang in task.barang.all %}
-                    <li>{{ barang }}</li>
-                    {% endfor %}
-                  </ul>
-                </td>
-                <td>
-                  <a class="btn btn-dark btn-sm" href="{% url 'updateTask' task.id_task %}">
-                      <i class="fa fa-pencil-alt"></i>
-                  </a><p></p>
-                  <a onclick="return confirm('Anda yakin ingin menghapus data Task dengan ID Task = {{task.id_task}} ?')" 
-                  class="btn btn-danger btn-sm" href="{% url 'deleteTask' task.id_task %}">
-                      <i class="fa fa-trash"></i>
-                  </a>
-              </td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
-        <!-- /.card-body -->
+        <script>
+          $(document).ready(function() {
+            var originalTable = $('tbody').html(); // Simpan isi tabel asli
+            var noDataMessage = '<tr id="no-data-row"><td colspan="5">Tidak Dapat Menemukan Data</td></tr>'; // Pesan jika tidak ada data
+            
+            $('#search-input').on('input', function() {
+              var searchText = $(this).val().toLowerCase();
+              if (searchText === '') {
+                $('tbody').html(originalTable); // Kembalikan tabel ke keadaan semula
+                return;
+              }
+              
+              $('tbody').html(originalTable); // Kembalikan tabel ke keadaan semula sebelum pencarian
+              
+              var found = false;
+              $('tbody tr').each(function() {
+                var rowData = $(this).text().toLowerCase();
+                if (rowData.indexOf(searchText) === -1) {
+                  $(this).hide();
+                } else {
+                  $(this).show();
+                  found = true;
+                }
+              });
+              
+              if (!found) {
+                $('tbody').append(noDataMessage); // Tampilkan pesan jika tidak ada hasil pencarian
+              } else {
+                $('#no-data-row').remove(); // Hapus pesan jika ada hasil pencarian
+              }
+            });
+          });
+        </script>
       </div>
-      <!-- /.card -->
+      <!-- /.card-header -->
+      <div class="card-body">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>ID Task</th>
+              <th>Waktu POS</th>
+              <th>Waktu POD</th>
+              <th>Bukti POS</th>
+              <th>Bukti POD</th>
+              <th>Jumlah Paket POS</th>
+              <th>Jumlah Paket POD</th>
+              <th>Kurir</th>
+              <th>Barang</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for task in data_task %}
+            <tr>
+              <td>{{ task.id_task }}</td>
+              <td>{{ task.waktu_pos }}</td>
+              <td>{{ task.waktu_pod }}</td>
+              <td>
+                {% if task.bukti_pos %}
+                  <img src="{{ task.bukti_pos }}" alt="{{ task.id_task }}-bukti-pos" height="100">
+                {% else %}
+                {% endif %}
+              </td>
+              <td>
+                {% if task.bukti_pod %}
+                  <img src="{{ task.bukti_pod }}" alt="{{ task.id_task }}-bukti-pod" height="100">
+                {% else %}
+                {% endif %}
+              </td>
+              <td>{{ task.jml_paket_pos }}</td>
+              <td>{{ task.jml_paket_pod }}</td>
+              <td>{{ task.id_kurir.nama }}</td>
+              <td>
+                <ul>
+                  {% for barang in task.barang.all %}
+                  <li>{{ barang }}</li>
+                  {% endfor %}
+                </ul>
+              </td>
+              <td>
+                <a class="btn btn-dark btn-sm" href="{% url 'updateTask' task.id_task %}">
+                  <i class="fa fa-pencil-alt"></i>
+                </a><p></p>
+                <a onclick="return confirm('Anda yakin ingin menghapus data Task dengan ID Task = {{task.id_task}} ?')" class="btn btn-danger btn-sm" href="{% url 'deleteTask' task.id_task %}">
+                  <i class="fa fa-trash"></i>
+                </a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
     </div>
-    <!-- /.col -->
   </div>
 </body>
 </html>

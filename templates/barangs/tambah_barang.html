@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
     <title>Tambah Barang</title>
 </head>
 
@@ -49,7 +50,8 @@
         <input type="text" name="nama_penerima" id="nama_penerima" required>
         <br>
         <br>
-        <button type="submit" class="btn btn-primary">SUBMIT</button>
+        <a href="{% url 'indexBarang' %}" class="button">BATAL</a>
+        <button type="submit" class="btn btn btn-submit">SUBMIT</button>
     </form>
 </body>
 
