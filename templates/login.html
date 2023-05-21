@@ -17,7 +17,7 @@
             box-sizing: border-box;
         }
         body{
-            background-color: #080710;
+            background-color: #d5d4de;
         }
         .background{
             width: 430px;
@@ -38,7 +38,7 @@
                 #4f18ad,
                 #23a2f6
             );
-            left: -80px;
+            right: -80%;
             top: -100px;
         }
         .shape:last-child{
@@ -53,7 +53,7 @@
         form{
             height: 550px;
             width: 400px;
-            background-color: rgba(255,255,255,0.13);
+            background-color: rgba(0, 0, 0, 0.8);
             position: absolute;
             transform: translate(-50%,-50%);
             top: 50%;
@@ -64,10 +64,15 @@
             box-shadow: 0 0 40px rgba(8,7,16,0.6);
             padding: 35px 35px;
         }
+        
+        #message-login {
+            color: #f70000;
+            text-align: center;
+        }
         form *{
             font-family: 'Poppins',sans-serif;
             color: #ffffff;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.5 px;
             outline: none;
             border: none;
         }
@@ -134,12 +139,6 @@
     </style>
 </head>
 <body>
-    <h1>Login</h1>
-    {% if messages %}
-      {% for message in messages %}
-        <p>{{ message }}</p>
-      {% endfor %}
-    {% endif %}
     <div class="background">
         <div class="shape"></div>
         <div class="shape"></div>
@@ -147,7 +146,21 @@
     
     <form method="POST" action="{% url 'loginPost' %}">
         <h3>Login Here</h3>
-        {% csrf_token %} 
+        <div id="message">
+            {% if messages %}
+                {% for message in messages %}
+                    <p id="message-login">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+            {% csrf_token %}
+        </div>
+        <script>
+            const messageElement = document.getElementById('message');
+            const hideMessage = () => {
+              messageElement.style.display = 'none';
+            };
+            setTimeout(hideMessage, 3000);
+          </script> 
         <label for="userid">User ID :</label>
         <input type="text" id="userid" name="userid" placeholder="ID" required>
 

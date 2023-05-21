@@ -54,6 +54,7 @@ def logout(request):
     # Hapus data session
     request.session.flush()
     messages.success(request, 'BERHASIL LOGOUT')
+    
     return redirect('LoginPage')
 
 

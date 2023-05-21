@@ -46,6 +46,14 @@
     </style>
 </head>
 <body>
+  <button type="button" onclick="printPage()">
+    <i class='fas fa-print' style='font: size 15px;color:red'></i>
+  </button> 
+  <script>
+    function printPage() {
+      window.print();
+    }
+  </script>
   <div class="flex-column">
     <div class="card">
       <div id="header-task" class="card-header d-flex justify-content-between">
