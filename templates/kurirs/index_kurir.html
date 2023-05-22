@@ -82,9 +82,7 @@
                   $('tbody').html(originalTable); // Kembalikan tabel ke keadaan semula
                   return;
                 }
-                
                 $('tbody').html(originalTable); // Kembalikan tabel ke keadaan semula sebelum pencarian
-                
                 var found = false;
                 $('tbody tr').each(function() {
                   var rowData = $(this).text().toLowerCase();
@@ -95,7 +93,6 @@
                     found = true;
                   }
                 });
-                
                 if (!found) {
                   $('tbody').append(noDataMessage); // Tampilkan pesan jika tidak ada hasil pencarian
                 } else {

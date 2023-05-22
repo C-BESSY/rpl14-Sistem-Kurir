@@ -122,6 +122,7 @@ def post_update_kurir(request):
         messages.success(request, f"BERHASIL UPDATE DATA KURIR DENGAN ID {id_kurir}")
     except ValueError:
         messages.error(request, 'PERIKSA KEMBALI NO TELEPON ANDA!')
+        return redirect(request.META.get('HTTP_REFERER', '/'))
     return redirect('/index_kurir')
 
 @login_required()
@@ -272,10 +273,10 @@ def post_task(request):
         )
         tambah_task.save()
         messages.success(request, 'BERHASIL TAMBAH TASK')
-    return redirect('taskDeliverys/index_task')
+    return redirect('/index_task')
 
 @login_required()
-def index_task(request):
+def index_task (request):
     data_task = TaskDelivery.objects.all()
     context = {
         'data_task' : data_task
