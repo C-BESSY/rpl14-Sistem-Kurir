@@ -7,6 +7,8 @@ from .models import TaskDelivery
 from django.contrib import messages
 from functools import wraps
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
+# import pdfMake
 
 
 
@@ -92,8 +94,12 @@ def post_kurir(request):
 @login_required()
 def index_kurir(request):
     data_kurir = Kurir.objects.all()
+    paginator = Paginator(data_kurir, 5)
+    page_number = request.GET.get('page', 1)  # Mendapatkan nomor halaman dari parameter URL atau menggunakan 1 sebagai default
+    page = paginator.get_page(page_number)
     context = {
-        'data_kurir' : data_kurir
+        'data_kurir' : page.object_list,
+        'page' : page,
     }
     return render(request, 'kurirs/index_kurir.html', context)
 
@@ -170,8 +176,12 @@ def post_barang(request):
 @login_required()
 def index_barang(request):
     data_barang = Barang.objects.all()
+    paginator = Paginator(data_barang, 5)
+    page_number = request.GET.get('page', 1)  # Mendapatkan nomor halaman dari parameter URL atau menggunakan 1 sebagai default
+    page = paginator.get_page(page_number)
     context = {
-        'data_barang' : data_barang
+        'data_barang' : page.object_list,
+        'page' : page,
     }
     return render(request, 'barangs/index_barang.html', context)
 
@@ -278,8 +288,12 @@ def post_task(request):
 @login_required()
 def index_task (request):
     data_task = TaskDelivery.objects.all()
+    paginator = Paginator(data_task, 5)
+    page_number = request.GET.get('page', 1)  # Mendapatkan nomor halaman dari parameter URL atau menggunakan 1 sebagai default
+    page = paginator.get_page(page_number)
     context = {
-        'data_task' : data_task
+        'data_task' : page.object_list,
+        'page' : page,
     }
     return render(request, 'taskDeliverys/index_task.html', context)
 

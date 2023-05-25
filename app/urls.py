@@ -40,6 +40,5 @@ urlpatterns = [
     path('post_update_task/', post_update_task, name='post_updateTask'),
     path('delete_task/<str:id_task>/', delete_task, name='deleteTask'),
     
-    #ganti password
-    # path('change_password/', change_password, name='change_password')
+
 ]

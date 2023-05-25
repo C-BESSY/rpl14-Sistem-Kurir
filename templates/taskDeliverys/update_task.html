@@ -26,7 +26,6 @@
         <p>JENIS : </p>
         <input type="radio" name="delivery_type" id="pos" value="pos" onchange="onDeliveryTypeChange()">
         <label for="pos">POS</label><br>
-        </script>
         <input type="radio" name="delivery_type" id="pod" value="pod" onchange="onDeliveryTypeChange()">
         <label for="pod">POD</label>
         <script>
@@ -50,14 +49,24 @@
                 }
             }
         </script>
-        <p>WAKTU POS : </p>
-        <input type="date" name="waktu_pos" id="waktu_pos" value="{{ data_task.waktu_pos}}" style="display: none;" >
-        <p>BUKTI POS : </p>
-        <input type="file" name="bukti_pos" id="bukti_pos" value="{{ data_task.bukti_pos}}" style="display:none" >
-        <p>WAKTU POD : </p>
-        <input type="date" name="waktu_pod" id="waktu_pod" value="{{ data_task.waktu_pod}}" style="display:none" >
-        <p>BUKTI POD : </p>
-        <input type="file" name="bukti_pod" id="bukti_pod" value="{{ data_task.bukti_pod}}" style="display:none" >
+
+        <div id="pos">
+            <p>WAKTU POS : </p>
+            <p>Current : {{ data_task.waktu_pos}}</p>
+            <input type="date" name="waktu_pos" id="waktu_pos" value="{{ data_task.waktu_pos}}"  >
+            <p>BUKTI POS : </p>
+            <p>Current : <img src="../../{{ data_task.bukti_pos}}" height="50"> </p>  <br>
+            <input type="file" name="bukti_pos" id="bukti_pos" value="{{ data_task.bukti_pos}}"  >
+        </div>
+        <div id="pod">
+            <p>WAKTU POD : </p>
+            <p>Current : {{ data_task.waktu_pod}}</p>
+            <input type="date" name="waktu_pod" id="waktu_pod" value="{{ data_task.waktu_pod}}"  >
+            <p>BUKTI POD : </p>
+            <p>Current : <img src="../../{{ data_task.bukti_pod}}" height="50"> </p>  <br>
+            <input type="file" name="bukti_pod" id="bukti_pod" value="{{ data_task.bukti_pod}}"  >
+            
+        </div>
         <p>JUMLAH PAKET(POS) : </p>
         <input type="text" name="jml_paket_pos" id="jml_paket_pos" value="{{ data_task.jml_paket_pos}}" required>
         <p>JUMLAH PAKET(POD) : </p>
