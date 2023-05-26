@@ -78,14 +78,14 @@
         <!-- User Account DropDown-->
         <li class="nav-item dropdown">
           <a class="nav-link" data-toggle="dropdown" >
-            <i class="fas fa-user"> User </i>
+            <i class="fas fa-user"> {{request.session.username}} </i>
           </a>
           <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
             <span class="dropdown-header">Account</span>
             <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item">
+            <!-- <a href="#" class="dropdown-item">
               <i class="fas fa-fingerprint"></i> Ubah Password
-            </a>
+            </a> -->
             {% comment %} <a href="#" class="dropdown-item">
               <i class="fas fa-users mr-2"></i> 8 friend requests
               <span class="float-right text-muted text-sm">12 hours</span>
@@ -100,7 +100,7 @@
             <i class="far fa-bell"></i>
             <span class="badge badge-warning navbar-badge">2</span>
           </a>
-          <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+          <!-- <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
             <span class="dropdown-header">1 Notifications</span>
             <div class="dropdown-divider"></div>
             <a href="#" class="dropdown-item">
@@ -109,7 +109,7 @@
             </a>  
             <div class="dropdown-divider"></div>
             <a href="#" class="dropdown-item dropdown-footer">Mark All as Read</a>
-          </div>
+          </div> -->
         </li>
             
         <!-- Log Out -->

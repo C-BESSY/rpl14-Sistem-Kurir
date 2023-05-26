@@ -10,19 +10,21 @@
 </head>
 
 <body>
-  {% if messages %}
-  <ul class="messages">
+  <p>
+    {% if messages %}
       {% for message in messages %}
-      <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+        <div class="alert alert-{{ message.tags }}">
+          {{ message }}
+        </div>
       {% endfor %}
-  </ul>
-  {% endif %}
+    {% endif %}
+  </p>
 
   <form action=" {% url 'postTask' %} " method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     <h1>FORM TAMBAH TASK</h1>
     <p>TASK ID : </p>
-    <input type="text" name="id_task" id="id_task" maxlength="10" required><BR></BR>
+    <input type="text" name="id_task" id="id_task" maxlength="10" required><BR>
     <p>JENIS : </p>
     <input type="radio" name="delivery_type" id="pos" value="pos" onchange="onDeliveryTypeChange()">
     <label for="pos">POS</label><br>
@@ -67,6 +69,12 @@
       <option value="{{ kurir.area_pengiriman }}">{{ kurir.area_pengiriman }}</option>
       {% endfor %}
     </select>
+    <!-- <p>BARANG : </p>
+    <select name="tujuan" required>
+      {% for barang in barang_tersedia %}
+      <option value="{{ barang.id_barang }} ">{{ barang.id_barang }}</option>
+      {% endfor %}
+    </select> -->
     <p></p>
     <a href="{% url 'indexTask' %}" class="button">BATAL</a>
     <button type="submit" class="btn btn-submit">SUBMIT</button>

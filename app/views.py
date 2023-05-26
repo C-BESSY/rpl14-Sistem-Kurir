@@ -38,6 +38,7 @@ def login_post(request):
         # Simpan data session
         request.session['logged_in'] = True
         request.session['userid'] = userid
+        request.session['username'] = username
         messages.success(request, 'BERHASIL LOGIN')
         return redirect('home')
     else:
@@ -260,15 +261,7 @@ def post_task(request):
     if TaskDelivery.objects.filter(id_task=id_task).exists():
         messages.error(request, 'TASK ID SUDAH DIGUNAKAN')
         return render(request, 'taskDeliverys/tambah_task.html')
-        # kurir = Kurir.objects.filter(id=id_kurir).first()
-        # if kurir is None:
-        #     messages.error(request, 'TIDAK DITEMUKAN KURIR DENGAN ID INI')
-        #     return render(request, 'tambah_task.html')
 
-        # barang = Barang.objects.filter(id=id_barang).first()
-        # if barang is None:
-        #     messages.error(request, 'TIDAK DITEMUKAN BARANG DENGAN ID INI')
-        #     return render(request, 'tambah_task.html')
     else :
         tambah_task = TaskDelivery(
             id_task=id_task,
@@ -279,7 +272,6 @@ def post_task(request):
             jml_paket_pos=jml_paket_pos,
             jml_paket_pod=jml_paket_pod,
             id_kurir=kurir,
-            # barang=barang,
         )
         tambah_task.save()
         messages.success(request, 'BERHASIL TAMBAH TASK')
@@ -288,7 +280,7 @@ def post_task(request):
 @login_required()
 def index_task (request):
     data_task = TaskDelivery.objects.all()
-    paginator = Paginator(data_task, 5)
+    paginator = Paginator(data_task, 6)
     page_number = request.GET.get('page', 1)  # Mendapatkan nomor halaman dari parameter URL atau menggunakan 1 sebagai default
     page = paginator.get_page(page_number)
     context = {

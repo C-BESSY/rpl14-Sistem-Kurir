@@ -24,7 +24,7 @@ class Barang(models.Model):
     no_hp = models.CharField(max_length=15)
 
     def __str__(self):
-        return self.nama_penerima
+        return self.id_barang
     
 class Kurir(models.Model):
     id_kurir = models.CharField(max_length=10, unique=True)

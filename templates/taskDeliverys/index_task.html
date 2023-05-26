@@ -147,7 +147,7 @@
               <th>Jumlah Paket POS</th>
               <th>Jumlah Paket POD</th>
               <th>Kurir</th>
-              <th>Barang</th>
+              <!-- <th>Barang</th> -->
               <th>Aksi</th>
             </tr>
           </thead>
@@ -172,13 +172,13 @@
               <td>{{ task.jml_paket_pos }}</td>
               <td>{{ task.jml_paket_pod }}</td>
               <td>{{ task.id_kurir.nama }}</td>
-              <td>
+              <!-- <td>
                 <ul>
-                  {% for barang in task.barang.all %}
+                  {% for barang in task.barang.id_barang %}
                   <li>{{ barang }}</li>
                   {% endfor %}
                 </ul>
-              </td>
+              </td> -->
               <td>
                 <a class="btn btn-dark btn-sm" href="{% url 'updateTask' task.id_task %}">
                   <i class="fa fa-pencil-alt"></i>
@@ -186,17 +186,81 @@
                 <a onclick="return confirm('Anda yakin ingin menghapus data Task dengan ID Task = {{task.id_task}} ?')" class="btn btn-danger btn-sm" href="{% url 'deleteTask' task.id_task %}">
                   <i class="fa fa-trash"></i>
                 </a><br><p></p>
-                <a href="#" onclick="generatePDF()" target="_blank" rel="noopener noreferrer">
+                <a href="#" onclick="generatePDF('{{ task.id_task }}', '{{ task.waktu_pos }}', '{{ task.bukti_pos }}', '{{ task.waktu_pod }}', '{{ task.bukti_pod }}', '{{ task.jml_paket_pos }}', '{{ task.jml_paket_pod }}', '{{ task.id_kurir }}', '{{ task.id_kurir.nama }}')" target="_blank" rel="noopener noreferrer">
                   <i class='far fa-file-pdf' style='font-size:38px;color:red'></i>
                 </a>
+                
                 <script>
-                  function generatePDF() {
-                    // Define your PDF document content
+                  function generatePDF(idTask, waktuPos, buktiPos, waktuPod, buktiPod, jmlPaketPos, jmlPaketPod, idKurir, namaKurir) {
+                    // Define the table rows with the row data
+                    const tableContent = [
+                      [{ text: '"Field"', bold: true }, { text: '"Value"', bold: true }],
+                      ['ID Task', idTask],
+                      ['Waktu POS', waktuPos],
+                      ['Bukti POS', buktiPos],
+                      ['Waktu POD', waktuPod],
+                      ['Bukti POD', buktiPod],
+                      ['Jumlah Paket POS', jmlPaketPos],
+                      ['Jumlah Paket POD', jmlPaketPod],
+                      ['Kurir', idKurir],
+                    ];
+                
+                    // Define the table layout
+                    const tableLayout = {
+                      hLineWidth: function (i, node) {
+                        return i === 0 || i === node.table.body.length ? 2 : 1;
+                      },
+                      vLineWidth: function (i) {
+                        return i === 0 || i === 1 ? 2 : 1;
+                      },
+                      hLineColor: function () {
+                        return '#000000';
+                      },
+                      vLineColor: function () {
+                        return '#000000';
+                      },
+                      paddingLeft: function (i) {
+                        return i === 0 ? 10 : 5;
+                      },
+                      paddingRight: function (i) {
+                        return i === 1 ? 10 : 5;
+                      },
+                      paddingTop: function (i) {
+                        return i === 0 ? 10 : 5;
+                      },
+                      paddingBottom: function (i) {
+                        return i === 1 ? 10 : 5;
+                      },
+                    };
+                
+                    // Define your PDF document content with the table
                     const documentDefinition = {
                       content: [
-                        // Define your PDF content here
-                        'Hello, this is your PDF content!',
+                        { text: 'Report Task Delivery', style: 'title' },
+                        { text: ' ', style: 'sub-title' },
+                        // Use the table content in your PDF
+                        {
+                          table: {
+                            widths: ['*', '*'],
+                            body: tableContent,
+                          },
+                          layout: tableLayout,
+                        },
+                        // Add more content or customize the PDF as needed
                       ],
+                      styles: {
+                        title: {
+                          fontSize: 18,
+                          bold: true,
+                          alignment: 'center',
+                          margin: [0, 0, 0, 10], // Adjust the margin as needed
+                        },
+                        'sub-title': {
+                          fontSize: 14,
+                          alignment: 'center',
+                          margin: [0, 0, 0, 10], // Adjust the margin as needed
+                        },
+                      },
                     };
                     // Generate the PDF
                     pdfMake.createPdf(documentDefinition).open();
